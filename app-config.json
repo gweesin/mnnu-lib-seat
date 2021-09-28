@@ -1,0 +1,54 @@
+{
+  "server": {
+    "host": null,
+    "port": 8000
+  },
+  "proxy": {
+    "open": false,
+    "host": "127.0.0.1",
+    "port": 8889
+  },
+  "users": [
+    {
+      "account": "1805100131",
+      "password": "mima592372302",
+      "expected-seats": [
+        {
+          "roomId": 33,
+          "seatId": 25505,
+          "priority": 5
+        },
+        {
+          "roomId": 33,
+          "seatId": 25574,
+          "priority": 2
+        },
+        {
+          "roomId": 33,
+          "seatId": 25576,
+          "priority": 1
+        },
+        {
+          "roomId": 33,
+          "seatId": 25503,
+          "priority": 1
+        },
+        {
+          "roomId": 9,
+          "seatId": 12580,
+          "priority": 1
+        },
+        {
+          "roomId": 9,
+          "seatId": 12583,
+          "priority": 1
+        },
+        {
+          "roomId": 9,
+          "seatId": 12577,
+          "priority": 1
+        }
+      ]
+    }
+  ]
+}
