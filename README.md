@@ -10,6 +10,12 @@
 - 务必保证程序异常情况得到处理，因为设想得过于完美，导致浪费了一天又一天（每天只能在 18 点 ~ 18 点 05 分测）
 - 代码规范也非常重要
 - Fiddler 拦截请求 `bpu [url]`，拦截响应 `bp [after]`，很方便的用于测试接收到错误响应和非 2XX 状态码时的异常情况
+- 使用 .gitignore 删除已提交的文件
+    ```shell
+    git rm -r --cache .
+    git add .
+    git commit -m ".gitignore now work"
+    ```
 
 ## Plan
 
@@ -17,3 +23,4 @@
 - 使用新的 HMR 方案(Nodemon)[√]
 - 重构代码（感觉设计一团糟orz）
 - 引入 Prettier & ESLint
+
