@@ -11,11 +11,14 @@
 - 代码规范也非常重要
 - Fiddler 拦截请求 `bpu [url]`，拦截响应 `bp [after]`，很方便的用于测试接收到错误响应和非 2XX 状态码时的异常情况
 - 使用 .gitignore 删除已提交的文件
-    ```shell
-    git rm -r --cache .
-    git add .
-    git commit -m ".gitignore now work"
-    ```
+
+```shell    
+# 删除所有本地缓存
+git rm -r --cache .
+
+git add .
+git commit -m ".gitignore now work"
+```
 
 ## Plan
 
