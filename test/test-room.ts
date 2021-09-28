@@ -1,6 +1,6 @@
-import { Room, Seat, UserBookHistory } from "../src/request/data";
+import { Room, Seat } from "../src/request/data";
 import { BUILDING_ID_YF, getRooms } from "../src/category/building";
-import { getCookie, getUserBookHistory, login } from "../src/category/user";
+import { getCookie } from "../src/category/user";
 import { FormatDate } from "../src/utils/date-utils";
 import { User } from "../src/request/user";
 import { getUsers } from "../src/category/config-load";

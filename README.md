@@ -20,13 +20,17 @@ git add .
 git commit -m ".gitignore now work"
 ```
 
-- [Prettier](https://zhuanlan.zhihu.com/p/81764012?from_voters_page=true)
-- [eslint plugin prettier](https://github.com/prettier/eslint-plugin-prettier)
-- [Using Prettier with ESLint](https://prettier.io/docs/en/webstorm.html)
-
 ## Plan
 
 - [x] 使用 Webpack 进行打包
 - [x] 使用新的 HMR 方案(Nodemon)
-- [ ] 重构代码（感觉设计一团糟 orz）
 - [x] 引入 Prettier & ESLint & eslint-plugin-prettier
+- [ ] 重构代码（感觉设计一团糟 orz）
+- [ ] 使用 Koa 框架构建 API 接口
+
+## Related Link
+
+- [Prettier Configuration](https://zhuanlan.zhihu.com/p/81764012?from_voters_page=true)
+- [Prettier](https://zhuanlan.zhihu.com/p/81764012?from_voters_page=true)
+- [eslint plugin prettier](https://github.com/prettier/eslint-plugin-prettier)
+- [Using Prettier with ESLint](https://prettier.io/docs/en/webstorm.html)

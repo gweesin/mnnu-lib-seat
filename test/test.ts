@@ -1,5 +1,5 @@
 import { getCookie } from "../src/category/user";
-import { bookSeat, loadBookSeatTime, stopBookSeat } from "../src/category/seat";
+import { loadBookSeatTime, stopBookSeat } from "../src/category/seat";
 import { FormatDate } from "../src/utils/date-utils";
 
 (async () => {
