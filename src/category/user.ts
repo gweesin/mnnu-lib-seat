@@ -1,5 +1,5 @@
 import axios, {URL} from "../request/lib-axios";
-import {User} from "../request/config";
+import {User} from "../request/user";
 import {AxiosResponse} from "axios";
 import {Result, UserBookHistory} from "../request/data";
 import qs from "qs";

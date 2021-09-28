@@ -13,7 +13,7 @@
 
 ## Plan
 
-- 使用 Webpack 进行打包
-- 使用新的 HMR 方案
+- 使用 Webpack 进行打包[√]
+- 使用新的 HMR 方案(Nodemon)[√]
 - 重构代码（感觉设计一团糟orz）
 - 引入 Prettier & ESLint

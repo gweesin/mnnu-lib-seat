@@ -1,0 +1,24 @@
+{
+  "server": {
+    "host": null,
+    "port": 8000
+  },
+  "proxy": {
+    "open": false,
+    "host": "127.0.0.1",
+    "port": 8889
+  },
+  "users": [
+    {
+      "account": "",
+      "password": "",
+      "expected-seats": [
+        {
+          "roomId": 33,
+          "seatId": 25505,
+          "priority": 5
+        }
+      ]
+    }
+  ]
+}

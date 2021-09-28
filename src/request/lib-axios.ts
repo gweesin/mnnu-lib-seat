@@ -1,18 +1,19 @@
 import axios, {AxiosProxyConfig} from 'axios';
+import {proxy} from '../../app-config.json'
 
 export const URL = 'https://seatwx.mnnu.edu.cn';
 export const URLP = 'https://seatwx.mnnu.edu.cn/libseat-ibeacon';
 
 const PROXY: AxiosProxyConfig = {
-    host: '127.0.0.1',
-    port: 8889,
-    protocol: 'http',
+    host: proxy.host,
+    port: proxy.port,
 }
-axios.defaults.proxy = PROXY;
+
+axios.defaults.proxy = proxy.open ? PROXY : null;
 axios.defaults.validateStatus = (status: number) => {
     return status >= 200 && status < 300 || status === 302;
 }
-// axios.interceptors
+
 axios.defaults.timeout = 180000;
 axios.defaults.headers = {
     'User-Agent': 'Mozilla/5.0 (Linux; U; Android 4.1.2; zh-cn; GT-I9300 Build/JZO54K) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30 MicroMessenger/5.2.380',

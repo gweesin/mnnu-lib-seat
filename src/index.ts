@@ -1,54 +1,8 @@
-import {UserExpected} from "../request/data";
-import {FormatDate} from "../utils/date-utils";
-import {OccupySeat} from "../occupy-seat";
-import {getCookie} from "../category/user";
-
-// 预约指定地方的座位，默认 08:00 - 22:00
-const TOMORROW: FormatDate = FormatDate.tomorrow();
-const expected: UserExpected = {
-    roomId: 33, // room=二楼电子阅览室
-    seatId: 25505, // 137 号座位
-};
-
-export const expecteds: UserExpected[] = [
-    {
-        roomId: 33,
-        seatId: 25505,
-        priority: 5,
-    },
-    {
-        roomId: 33,
-        seatId: 25574,
-        priority: 2,
-    },
-    {
-        roomId: 33,
-        seatId: 25576,
-        priority: 1,
-    },
-    {
-        roomId: 33,
-        seatId: 25503,
-        priority: 1,
-    },
-    {
-        roomId: 9,
-        seatId: 12580,
-        priority: 1,
-    },
-    {
-        roomId: 9,
-        seatId: 12583,
-        priority: 1,
-    },
-    {
-        roomId: 9,
-        seatId: 12577,
-        priority: 1,
-    }
-];
-
-// async function selectSeat
+import {UserExpected} from "./request/data";
+import {OccupySeat} from "./request/occupy-seat";
+import {getCookie} from "./category/user";
+import {users} from '../app-config.json';
+import {User} from "./request/user";
 
 // (async () => {
 //     const users: User[] = await getUsers();
@@ -84,23 +38,22 @@ export const expecteds: UserExpected[] = [
 //     }
 // });
 
-let user = {
-    "account": "1805100131",
-    "password": "mima592372302"
-};
-
-const cookieTime: number = new Date().setHours(17, 57, 0);
-const startTime: number = new Date().setHours(17, 59, 59);
-const endTime: number = new Date().setHours(18, 5, 0);
-const occupySeat = new OccupySeat(user, expecteds, startTime, endTime);
-
 (async () => {
-    while (true) {
-        if (Date.now() >= cookieTime) {
-            const cookie: string = await getCookie();
-            console.log(cookie);
-            occupySeat.occupyExpectedSeat(cookie, 8, 22);
-            break;
+    for (const user of users) {
+        const expecteds: UserExpected[] = user['expected-seats'];
+
+        const cookieTime: number = new Date().setHours(17, 57, 0);
+        const startTime: number = new Date().setHours(17, 59, 59);
+        const endTime: number = new Date().setHours(18, 5, 0);
+        const occupySeat = new OccupySeat(user, expecteds, startTime, endTime);
+
+        while (true) {
+            if (Date.now() >= cookieTime) {
+                const cookie: string = await getCookie();
+                console.log(cookie);
+                occupySeat.occupyExpectedSeat(cookie, 8, 22);
+                break;
+            }
         }
     }
 })();

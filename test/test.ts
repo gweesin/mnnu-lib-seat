@@ -1,6 +1,6 @@
-import {getCookie} from "../category/user";
-import {bookSeat, loadBookSeatTime, stopBookSeat} from "../category/seat";
-import {FormatDate} from "../utils/date-utils";
+import {getCookie} from "../src/category/user";
+import {bookSeat, loadBookSeatTime, stopBookSeat} from "../src/category/seat";
+import {FormatDate} from "../src/utils/date-utils";
 
 (async () => {
     const COOKIE: string = await getCookie();

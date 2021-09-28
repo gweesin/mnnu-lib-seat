@@ -1,10 +1,10 @@
-import {User} from "./request/config";
-import {BookSeatResult, Room, Seat, SeatState, UserExpected} from "./request/data";
-import {getCookie} from "./category/user";
-import {bookSeat, loadBookSeatTime, toFormatString} from "./category/seat";
-import {FormatDate} from "./utils/date-utils";
-import {BUILDING_ID_YF, getRooms} from "./category/building";
-import {getSeatsByTime} from "./category/room";
+import {User} from "./user";
+import {BookSeatResult, Room, Seat, SeatState, UserExpected} from "./data";
+import {getCookie} from "../category/user";
+import {bookSeat, loadBookSeatTime, toFormatString} from "../category/seat";
+import {FormatDate} from "../utils/date-utils";
+import {BUILDING_ID_YF, getRooms} from "../category/building";
+import {getSeatsByTime} from "../category/room";
 import _ from "lodash";
 
 export class OccupySeat {
