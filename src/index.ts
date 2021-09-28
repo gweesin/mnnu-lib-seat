@@ -1,8 +1,7 @@
-import {UserExpected} from "./request/data";
-import {OccupySeat} from "./request/occupy-seat";
-import {getCookie} from "./category/user";
-import {users} from '../app-config.json';
-import {User} from "./request/user";
+import { UserExpected } from "./request/data";
+import { OccupySeat } from "./request/occupy-seat";
+import { getCookie } from "./category/user";
+import { users } from "../app-config.json";
 
 // (async () => {
 //     const users: User[] = await getUsers();
@@ -39,23 +38,23 @@ import {User} from "./request/user";
 // });
 
 (async () => {
-    for (const user of users) {
-        const expecteds: UserExpected[] = user['expected-seats'];
+  for (const user of users) {
+    const expecteds: UserExpected[] = user["expected-seats"];
 
-        const cookieTime: number = new Date().setHours(17, 57, 0);
-        const startTime: number = new Date().setHours(17, 59, 59);
-        const endTime: number = new Date().setHours(18, 5, 0);
-        const occupySeat = new OccupySeat(user, expecteds, startTime, endTime);
+    const cookieTime: number = new Date().setHours(17, 57, 0);
+    const startTime: number = new Date().setHours(17, 59, 59);
+    const endTime: number = new Date().setHours(18, 5, 0);
+    const occupySeat = new OccupySeat(user, expecteds, startTime, endTime);
 
-        while (true) {
-            if (Date.now() >= cookieTime) {
-                const cookie: string = await getCookie();
-                console.log(cookie);
-                occupySeat.occupyExpectedSeat(cookie, 8, 22);
-                break;
-            }
-        }
+    while (true) {
+      if (Date.now() >= cookieTime) {
+        const cookie: string = await getCookie();
+        console.log(cookie);
+        occupySeat.occupyExpectedSeat(cookie, 8, 22);
+        break;
+      }
     }
+  }
 })();
 
 // getUsers().then(async users => {

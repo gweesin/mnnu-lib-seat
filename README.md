@@ -12,7 +12,7 @@
 - Fiddler 拦截请求 `bpu [url]`，拦截响应 `bp [after]`，很方便的用于测试接收到错误响应和非 2XX 状态码时的异常情况
 - 使用 .gitignore 删除已提交的文件
 
-```shell    
+```shell
 # 删除所有本地缓存
 git rm -r --cache .
 
@@ -20,10 +20,13 @@ git add .
 git commit -m ".gitignore now work"
 ```
 
+- [Prettier](https://zhuanlan.zhihu.com/p/81764012?from_voters_page=true)
+- [eslint plugin prettier](https://github.com/prettier/eslint-plugin-prettier)
+- [Using Prettier with ESLint](https://prettier.io/docs/en/webstorm.html)
+
 ## Plan
 
-- 使用 Webpack 进行打包[√]
-- 使用新的 HMR 方案(Nodemon)[√]
-- 重构代码（感觉设计一团糟orz）
-- 引入 Prettier & ESLint
-
+- [x] 使用 Webpack 进行打包
+- [x] 使用新的 HMR 方案(Nodemon)
+- [ ] 重构代码（感觉设计一团糟 orz）
+- [x] 引入 Prettier & ESLint & eslint-plugin-prettier
