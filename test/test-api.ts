@@ -1,10 +1,10 @@
-import {Room, Seat, UserBookHistory} from "../request/data";
-import {BUILDING_ID_YF, getRooms} from "../category/building";
-import {getCookie, getUserBookHistory, login} from "../category/user";
-import {FormatDate} from "../utils/date-utils";
-import {User} from "../request/config";
-import {getUsers} from "../category/config-load";
-import {getSeats} from "../category/room";
+import {Room, Seat, UserBookHistory} from "../src/request/data";
+import {BUILDING_ID_YF, getRooms} from "../src/category/building";
+import {getCookie, getUserBookHistory, login} from "../src/category/user";
+import {FormatDate} from "../src/utils/date-utils";
+import {User} from "../src/request/user";
+import {getUsers} from "../src/category/config-load";
+import {getSeats} from "../src/category/room";
 
 (async () => {
     const users: User[] = await getUsers();

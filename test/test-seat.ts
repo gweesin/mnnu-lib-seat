@@ -1,11 +1,11 @@
-import {BookSeatResult, Room, Seat, SeatState} from "../request/data";
-import {BUILDING_ID_YF, getRooms} from "../category/building";
-import {getCookie} from "../category/user";
-import {FormatDate} from "../utils/date-utils";
-import {User} from "../request/config";
-import {getUsers} from "../category/config-load";
-import {getSeatsByTime} from "../category/room";
-import {bookSeat, loadBookSeatTime, toFormatString} from "../category/seat";
+import {BookSeatResult, Room, Seat, SeatState} from "../src/request/data";
+import {BUILDING_ID_YF, getRooms} from "../src/category/building";
+import {getCookie} from "../src/category/user";
+import {FormatDate} from "../src/utils/date-utils";
+import {User} from "../src/request/user";
+import {getUsers} from "../src/category/config-load";
+import {getSeatsByTime} from "../src/category/room";
+import {bookSeat, loadBookSeatTime, toFormatString} from "../src/category/seat";
 import _ from "lodash";
 
 function autoTest() {
