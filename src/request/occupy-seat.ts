@@ -1,13 +1,12 @@
 import { User } from "./user";
 import { BookSeatResult, Room, Seat, SeatState, UserExpected } from "./data";
 import { getCookie } from "../category/user";
-import { bookSeat, loadBookSeatTime, toFormatString } from "../category/seat";
+import { bookSeat, loadBookSeatTime } from "../category/seat";
 import { FormatDate } from "../utils/date-utils";
 import { BUILDING_ID_YF, getRooms } from "../category/building";
 import { getSeatsByTime } from "../category/room";
 import _ from "lodash";
 import nodemailer, { Transporter } from "nodemailer";
-import { MailOptions } from "_@types_nodemailer@6.4.4@@types/nodemailer/lib/smtp-transport";
 import { email } from "../../app-config.json";
 
 export class OccupySeat {
@@ -48,14 +47,13 @@ export class OccupySeat {
   }
 
   private sendEmail(subject: string, text: string): Promise<any> {
-    const mailOptions: MailOptions = {
-      from: email.from,
-      to: email.to,
-      subject: subject,
-      text: text,
-    };
     return this.transporter
-      .sendMail(mailOptions)
+      .sendMail({
+        from: email.from,
+        to: email.to,
+        subject: subject,
+        text: text,
+      })
       .then((resp) => {
         console.log(resp);
       })
