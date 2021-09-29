@@ -27,10 +27,13 @@ git commit -m ".gitignore now work"
 - [x] 引入 Prettier & ESLint & eslint-plugin-prettier
 - [ ] 重构代码（感觉设计一团糟 orz）
 - [ ] 使用 Koa 框架构建 API 接口
+- [x] 添加自定义用户爬虫时间配置
+- [x] 发送邮件
 
 ## Related Link
 
-- [Prettier Configuration](https://zhuanlan.zhihu.com/p/81764012?from_voters_page=true)
 - [Prettier](https://zhuanlan.zhihu.com/p/81764012?from_voters_page=true)
-- [eslint plugin prettier](https://github.com/prettier/eslint-plugin-prettier)
+- [Prettier Configuration](https://zhuanlan.zhihu.com/p/81764012?from_voters_page=true)
 - [Using Prettier with ESLint](https://prettier.io/docs/en/webstorm.html)
+- [eslint plugin prettier](https://github.com/prettier/eslint-plugin-prettier)
+- [nodemailer](https://nodemailer.com)

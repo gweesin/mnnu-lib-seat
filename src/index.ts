@@ -1,56 +1,35 @@
 import { UserExpected } from "./request/data";
 import { OccupySeat } from "./request/occupy-seat";
 import { getCookie } from "./category/user";
-import { users } from "../app-config.json";
+import * as config from "../app-config.json";
+import moment, { Moment } from "moment";
+import { BookTimes, Duration, User } from "./request/user";
 
-// (async () => {
-//     const users: User[] = await getUsers();
-//     for (const user of users) {
-//         // for (let i = 0; true; ++i) {
-//         while (true) {
-//             // const COOKIE: string = 'JSESSIONID=BB9ED4513C70B85F9F6F2D1C26906D49;';
-//             let cookie: string = await getCookie();
-//
-//             const now: Date = new Date();
-//             const nowString = `${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}:${now.getMilliseconds()}`;
-//             // if (now.getHours() >= 17 && now.getMinutes() > 59 && now.getSeconds() > 58 || now.getHours() > 17) {
-//             // const COOKIE: string = await getCookie();
-//
-//             const result: BookSeatResult = await bookSeat(cookie, expected.seatId, TOMORROW);
-//             if (result.status !== 'fail') {
-//                 console.log(result);
-//                 break;
-//             }
-//             console.log(`${nowString} ${result.message}`);
-//         }
-//     }
-// })();
-
-// getUsers().then(async users => {
-//     for (const user of users) {
-//         const cookie: number = new Date().setHours(17, 57, 0);
-//         const occupySeat = new OccupySeat(user, expecteds,
-//             new Date().setHours(17, 59, 59),
-//             new Date().setHours(18, 50, 0),
-//         );
-//         await occupySeat.occupyExpectedSeat(10, 21);
-//     }
-// });
+const users: User[] = config.users;
+const tomorrow: Moment = moment().add(1, "days");
+console.log(tomorrow.format("YYYY-MM-DD") + " " + tomorrow.day());
 
 (async () => {
   for (const user of users) {
-    const expecteds: UserExpected[] = user["expected-seats"];
+    const expects: UserExpected[] = user.expectSeats;
+    let bookTimes: BookTimes = user.bookTimes;
+    let duration: Duration = bookTimes[tomorrow.day()] || { begin: 8, end: 22 };
+    console.log(duration);
 
     const cookieTime: number = new Date().setHours(17, 57, 0);
     const startTime: number = new Date().setHours(17, 59, 59);
     const endTime: number = new Date().setHours(18, 5, 0);
-    const occupySeat = new OccupySeat(user, expecteds, startTime, endTime);
+    const occupySeat = new OccupySeat(user, expects, startTime, endTime);
 
     while (true) {
       if (Date.now() >= cookieTime) {
         const cookie: string = await getCookie();
         console.log(cookie);
-        occupySeat.occupyExpectedSeat(cookie, 8, 22);
+        await occupySeat.occupyExpectedSeat(
+          cookie,
+          duration.begin,
+          duration.end
+        );
         break;
       }
     }

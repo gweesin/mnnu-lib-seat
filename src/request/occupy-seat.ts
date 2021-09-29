@@ -6,6 +6,9 @@ import { FormatDate } from "../utils/date-utils";
 import { BUILDING_ID_YF, getRooms } from "../category/building";
 import { getSeatsByTime } from "../category/room";
 import _ from "lodash";
+import nodemailer, { Transporter } from "nodemailer";
+import { MailOptions } from "_@types_nodemailer@6.4.4@@types/nodemailer/lib/smtp-transport";
+import { email } from "../../app-config.json";
 
 export class OccupySeat {
   public readonly user: User;
@@ -14,6 +17,7 @@ export class OccupySeat {
   private readonly occupyEnd: number;
   private readonly DEFAULT_BEGIN_HOUR: number = 8;
   private readonly DEFAULT_END_HOUR: number = 22;
+  private transporter: Transporter;
 
   constructor(
     user: User,
@@ -31,13 +35,39 @@ export class OccupySeat {
       this.occupyBegin = occupyBegin;
       this.occupyEnd = occupyEnd;
     }
+
+    this.transporter = nodemailer.createTransport({
+      service: email.service,
+      // port: 465,
+      // secure: false,
+      auth: {
+        user: email.auth.user,
+        pass: email.auth.pass,
+      },
+    });
   }
 
-  public occupySeat() {}
+  private sendEmail(subject: string, text: string): Promise<any> {
+    const mailOptions: MailOptions = {
+      from: email.from,
+      to: email.to,
+      subject: subject,
+      text: text,
+    };
+    return this.transporter
+      .sendMail(mailOptions)
+      .then((resp) => {
+        console.log(resp);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
   /**
    * 抢明天指定时间段期望的座位
    *
+   * @param cookie 保持会话的 cookie
    * @param beginHour 开始的小时数，不能小于 DEFAULT_BEGIN_HOUR
    * @param endHour 结束的小时数，不能大于 DEFAULT_END_HOUR
    */
@@ -57,14 +87,20 @@ export class OccupySeat {
 
     try {
       for (const expect of this.expects) {
-        let interval: NodeJS.Timer = setInterval(() => {
+        let interval: NodeJS.Timer = setInterval(async () => {
           const now: number = Date.now();
           if (this.occupyBegin < now && now < this.occupyEnd) {
             for (let i = 0; i < (expect.priority || 1); ++i) {
               bookSeat(cookie, expect.seatId, date, beginHour, endHour).then(
                 async (resp: BookSeatResult) => {
                   console.log(resp);
-                  if (
+                  if (resp?.data?.location) {
+                    await this.sendEmail(
+                      FormatDate.tomorrow().toString() + " 预约成功",
+                      JSON.stringify(resp.data)
+                    );
+                    OccupySeat.clearIntervals(intervals);
+                  } else if (
                     !resp ||
                     !resp.message ||
                     resp.message.search("登录失败: 用户名或密码不正确") !==
@@ -81,6 +117,10 @@ export class OccupySeat {
               );
             }
           } else if (now > this.occupyEnd) {
+            await this.sendEmail(
+              FormatDate.tomorrow().toString() + " 预约失败",
+              "在规定时间内未能成功预约到座位"
+            );
             OccupySeat.clearIntervals(intervals);
           }
         }, 1005);
@@ -149,17 +189,6 @@ export class OccupySeat {
       }
       // freeSeats = freeSeats.concat(frees);
     }
-
-    // for (const seat of freeSeats) {
-    //     loadBookSeatTime(cookie, seat.id, date).then(resp => {
-    //         let start = resp.start !== 'now' ? parseInt(resp.start) / 60 : resp.start;
-    //         let end = resp.end !== 'now' ? parseInt(resp.end) / 60 : resp.end;
-    //         console.log(`seatId: ${seat.id}: [${start}, ${end}]`);
-    //         // bookSeat(cookie, seat.id, date, resp.start, resp.end).then((resp: BookSeatResult) => {
-    //         //     console.log(resp);
-    //         // });
-    //     });
-    // }
   }
 
   /**
