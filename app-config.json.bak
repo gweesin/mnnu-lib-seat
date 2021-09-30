@@ -8,6 +8,32 @@
     "host": "127.0.0.1",
     "port": 8889
   },
+  "times": {
+    "watchingTime": {
+      "hour": 17,
+      "minute": 57,
+      "second": 0
+    },
+    "startRequestTime": {
+      "hour": 17,
+      "minute": 59,
+      "second": 59
+    },
+    "endRequestTime": {
+      "hour": 18,
+      "minute": 1,
+      "second": 30
+    }
+  },
+  "email": {
+    "service": "QQ",
+    "auth": {
+      "user": "email@xxx.com",
+      "pass": "xxx"
+    },
+    "from": "email@xxx.com",
+    "to": ["email@xxx.com"]
+  },
   "users": [
     {
       "account": "",

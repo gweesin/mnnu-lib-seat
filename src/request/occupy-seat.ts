@@ -99,26 +99,24 @@ export class OccupySeat {
                     );
                     OccupySeat.clearIntervals(intervals);
                   } else if (
-                    !resp ||
-                    !resp.message ||
+                    !resp?.message ||
                     resp.message.search("登录失败: 用户名或密码不正确") !==
                       -1 ||
-                    resp.message.search("非法用户登录") !== -1
+                    resp.message.search("非法用户登录") !== -1 ||
+                    resp.message.search("参数错误") !== -1
                   ) {
+                    // 参数错误的情况为节假日
+                    OccupySeat.clearIntervals(intervals);
                   } else if (
                     resp.status == "success" ||
                     resp.message.search("有效预约") !== -1
                   ) {
-                    OccupySeat.clearIntervals(intervals);
+                    return;
                   }
                 }
               );
             }
           } else if (now > this.occupyEnd) {
-            await this.sendEmail(
-              FormatDate.tomorrow().toString() + " 预约失败",
-              "在规定时间内未能成功预约到座位"
-            );
             OccupySeat.clearIntervals(intervals);
           }
         }, 1005);
