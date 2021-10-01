@@ -94,8 +94,10 @@ export class OccupySeat {
                   console.log(resp);
                   if (resp?.data?.location) {
                     await this.sendEmail(
-                      FormatDate.tomorrow().toString() + " 预约成功",
-                      JSON.stringify(resp.data)
+                      FormatDate.tomorrow().toString() +
+                        " " +
+                        resp.data.location,
+                      JSON.stringify(resp.data, null, 2)
                     );
                     OccupySeat.clearIntervals(intervals);
                   } else if (
