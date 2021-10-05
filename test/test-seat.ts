@@ -3,7 +3,7 @@ import { BUILDING_ID_YF, getRooms } from "../src/category/building";
 import { getCookie } from "../src/category/user";
 import { FormatDate } from "../src/utils/date-utils";
 import { User } from "../src/request/user";
-import { getUsers } from "../src/category/config-load";
+import * as config from "../app-config.json";
 import { getSeatsByTime } from "../src/category/room";
 import {
   bookSeat,
@@ -14,7 +14,7 @@ import _ from "lodash";
 
 function autoTest() {
   (async () => {
-    const users: User[] = await getUsers();
+    const users: User[] = config.users;
     const date: FormatDate = FormatDate.getDate();
 
     for (const user of users) {

@@ -1,9 +1,10 @@
 import { UserExpected } from "./data";
 
 export interface User {
-  name?: string;
-  account: string;
-  password: string;
+  readonly name?: string;
+  readonly email: string;
+  readonly account: string;
+  readonly password: string;
   bookTimes: BookTimes;
   expectSeats: UserExpected[];
 }
@@ -16,6 +17,7 @@ export interface BookTimes {
   "4"?: Duration;
   "5"?: Duration;
   "6"?: Duration;
+  default: Duration;
 }
 
 export interface Duration {

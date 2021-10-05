@@ -3,11 +3,11 @@ import { BUILDING_ID_YF, getRooms } from "../src/category/building";
 import { getCookie } from "../src/category/user";
 import { FormatDate } from "../src/utils/date-utils";
 import { User } from "../src/request/user";
-import { getUsers } from "../src/category/config-load";
 import { getSeats } from "../src/category/room";
+import * as config from "../app-config.json";
 
 (async () => {
-  const users: User[] = await getUsers();
+  const users: User[] = config.users;
 
   for (const user of users) {
     const COOKIE: string = await getCookie();

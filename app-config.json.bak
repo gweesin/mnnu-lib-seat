@@ -32,10 +32,11 @@
       "pass": "xxx"
     },
     "from": "email@xxx.com",
-    "to": ["email@xxx.com"]
   },
   "users": [
     {
+      "name": "",
+      "email": "",
       "account": "",
       "password": "",
       "expected-seats": [

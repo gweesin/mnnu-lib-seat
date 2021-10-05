@@ -22,10 +22,7 @@ async function bookExpectSeat() {
   for (const user of users) {
     const expects: UserExpected[] = user.expectSeats;
     let bookTimes: BookTimes = user.bookTimes;
-    let duration: Duration = bookTimes[tomorrow.day()] || {
-      begin: 9,
-      end: 22,
-    };
+    let duration: Duration = bookTimes[tomorrow.day()] || bookTimes.default;
     console.log(duration);
 
     const times = config.times;
@@ -108,5 +105,5 @@ router.get("/", async (ctx) => {
 app.use(router.routes());
 app.listen(config.server.port, () => {
   console.log("服务器启动成功");
-  // bookExpectSeat().then((resp) => console.log(resp));
+  bookExpectSeat();
 });

@@ -50,7 +50,7 @@ export class OccupySeat {
     return this.transporter
       .sendMail({
         from: email.from,
-        to: email.to,
+        to: [email.from, this.user.email],
         subject: subject,
         text: text,
       })
