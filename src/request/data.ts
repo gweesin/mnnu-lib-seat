@@ -107,5 +107,7 @@ export interface BookLoadTime {
 export interface UserExpected {
   readonly roomId?: number;
   readonly seatId: number;
+  readonly rootName?: string;
+  readonly seatName?: string;
   readonly priority?: number;
 }

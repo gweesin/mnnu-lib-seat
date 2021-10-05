@@ -1,3 +1,4 @@
+
 # Occupy MNNU Library Seat
 
 ## Record
@@ -26,7 +27,7 @@ git commit -m ".gitignore now work"
 - [x] 使用新的 HMR 方案(Nodemon)
 - [x] 引入 Prettier & ESLint & eslint-plugin-prettier
 - [ ] 重构代码（感觉设计一团糟 orz）
-- [ ] 使用 Koa 框架构建 API 接口
+- [x] 使用 Koa 框架构建 API 接口
 - [x] 添加自定义用户爬虫时间配置
 - [x] 发送邮件
 

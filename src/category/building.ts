@@ -3,8 +3,8 @@ import { AxiosResponse } from "axios";
 import axios, { URL } from "../request/lib-axios";
 import _ from "lodash";
 
-export const BUILDING_ID_YF = 1;
-export const BUILDING_ID_KJG = 2;
+export const BUILDING_ID_YF: number = 1;
+export const BUILDING_ID_KJG: number = 2;
 
 /**
  * 获取 building 里所有的房间信息
