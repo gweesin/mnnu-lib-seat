@@ -10,6 +10,7 @@ import { BUILDING_ID_YF, getRooms } from "./category/building";
 import { getSeats } from "./category/room";
 import { FormatDate } from "./utils/date-utils";
 import _ from "lodash";
+import CycleTimer from "./entity/cycle-timer";
 
 const users: User[] = config.users;
 const today: FormatDate = FormatDate.today();
@@ -26,35 +27,27 @@ async function bookExpectSeat() {
     console.log(duration);
 
     const times = config.times;
-    const cookieTime: number = new Date().setHours(
-      times.watchingTime.hour,
-      times.watchingTime.minute,
-      times.watchingTime.second
-    );
-    const startTime: number = new Date().setHours(
-      times.startRequestTime.hour,
-      times.startRequestTime.minute,
-      times.startRequestTime.second
-    );
-    const endTime: number = new Date().setHours(
-      times.endRequestTime.hour,
-      times.endRequestTime.minute,
-      times.endRequestTime.second
-    );
-    const occupySeat = new OccupySeat(user, expects, startTime, endTime);
+    const watch = times.watchingTime;
+    const start = times.startRequestTime;
+    const end = times.endRequestTime;
+    const cycleTimer: CycleTimer = new CycleTimer(async () => {
+      const startTime: number = new Date().setHours(
+        start.hour,
+        start.minute,
+        start.second
+      );
+      const endTime: number = new Date().setHours(
+        end.hour,
+        end.minute,
+        end.second
+      );
+      const occupySeat = new OccupySeat(user, expects, startTime, endTime);
+      const cookie: string = await getCookie();
+      console.log(cookie);
+      await occupySeat.occupyExpectedSeat(cookie, duration.begin, duration.end);
+    }, moment(`${watch.hour}:${watch.minute}:${watch.second}`, "HH:mm:ss"));
 
-    while (true) {
-      if (Date.now() >= cookieTime) {
-        const cookie: string = await getCookie();
-        console.log(cookie);
-        await occupySeat.occupyExpectedSeat(
-          cookie,
-          duration.begin,
-          duration.end
-        );
-        break;
-      }
-    }
+    // cycleTimer.start();
   }
 }
 
