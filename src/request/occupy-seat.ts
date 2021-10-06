@@ -7,7 +7,7 @@ import { BUILDING_ID_YF, getRooms } from "../category/building";
 import { getSeatsByTime } from "../category/room";
 import _ from "lodash";
 import nodemailer, { Transporter } from "nodemailer";
-import { email } from "../../app-config.json";
+import { email } from "../../user-config.json";
 
 export class OccupySeat {
   public readonly user: User;

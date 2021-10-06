@@ -1,7 +1,7 @@
 import { Room, Seat, UserExpected } from "./request/data";
 import { OccupySeat } from "./request/occupy-seat";
 import { getCookie } from "./category/user";
-import * as config from "../app-config.json";
+import * as config from "../user-config.json";
 import moment, { Moment } from "moment";
 import { BookTimes, Duration, User } from "./request/user";
 import Koa from "koa";
@@ -11,6 +11,9 @@ import { getSeats } from "./category/room";
 import { FormatDate } from "./utils/date-utils";
 import _ from "lodash";
 import CycleTimer from "./entity/cycle-timer";
+import getLogger from "./entity/logger";
+
+const logger = getLogger();
 
 const users: User[] = config.users;
 const today: FormatDate = FormatDate.today();
@@ -97,6 +100,6 @@ router.get("/", async (ctx) => {
 
 app.use(router.routes());
 app.listen(config.server.port, () => {
-  console.log("服务器启动成功");
+  logger.info("服务器启动成功");
   bookExpectSeat();
 });

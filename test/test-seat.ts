@@ -3,7 +3,7 @@ import { BUILDING_ID_YF, getRooms } from "../src/category/building";
 import { getCookie } from "../src/category/user";
 import { FormatDate } from "../src/utils/date-utils";
 import { User } from "../src/request/user";
-import * as config from "../app-config.json";
+import * as config from "../user-config.json";
 import { getSeatsByTime } from "../src/category/room";
 import {
   bookSeat,
