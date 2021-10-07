@@ -5,8 +5,14 @@ export interface User {
   readonly email: string;
   readonly account: string;
   readonly password: string;
-  bookTimes: BookTimes;
-  expectSeats: UserExpected[];
+  readonly bookTimes: BookTimes;
+  readonly expectSeats: UserExpected[];
+  readonly wechatConfig: string;
+  readonly times: {
+    watchingTime: Time;
+    startRequestTime: Time;
+    endRequestTime: Time;
+  };
 }
 
 export interface BookTimes {
@@ -18,6 +24,12 @@ export interface BookTimes {
   "5"?: Duration;
   "6"?: Duration;
   default: Duration;
+}
+
+export interface Time {
+  hour: number;
+  minute: number;
+  second: number;
 }
 
 export interface Duration {

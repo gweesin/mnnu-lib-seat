@@ -1,6 +1,6 @@
 import { Building, Result, Room } from "../request/data";
 import { AxiosResponse } from "axios";
-import axios, { URL } from "../request/lib-axios";
+import axios, { URL } from "../request/axios-library";
 import _ from "lodash";
 
 export const BUILDING_ID_YF: number = 1;

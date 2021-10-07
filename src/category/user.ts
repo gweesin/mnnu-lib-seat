@@ -1,4 +1,4 @@
-import axios, { URL } from "../request/lib-axios";
+import axios, { URL } from "../request/axios-library";
 import { User } from "../request/user";
 import { AxiosResponse } from "axios";
 import { Result, UserBookHistory } from "../request/data";
@@ -6,23 +6,29 @@ import qs from "qs";
 
 const WE_CHAT_CONFIG = "o1IyJt1Jg8ODKO-uFa3hSRC9isIM";
 
-export function getCookie(): Promise<string> {
-  return axios
-    .get(`${URL}/libseat-ibeacon/load/${WE_CHAT_CONFIG}?type=currentBook`, {
-      proxy: false,
-    })
-    .then((resp) => {
-      const PATH: string = resp.request.path;
-      const JSESSION_ID_PATTERN: RegExp = /^.*;jsessionid=(.*)$/;
+/**
+ * 获取保持会话所需的 Cookie 信息
+ *
+ * @param WE_CHAT_CONFIG 微信配置信息
+ */
+export async function getCookie(WE_CHAT_CONFIG: string): Promise<string> {
+  try {
+    const resp = await axios.get(
+      `${URL}/libseat-ibeacon/load/${WE_CHAT_CONFIG}?type=currentBook`,
+      {
+        proxy: false,
+      }
+    );
+    const PATH: string = resp.request.path;
+    const JSESSION_ID_PATTERN: RegExp = /^.*;jsessionid=(.*)$/;
 
-      const JSESSION_ID = PATH.match(JSESSION_ID_PATTERN)?.[1];
-      const COOKIE: string = `JSESSIONID=${JSESSION_ID}` || "";
-      return COOKIE;
-    })
-    .catch((err) => {
-      console.log(err);
-      return null;
-    });
+    const JSESSION_ID = PATH.match(JSESSION_ID_PATTERN)?.[1];
+    const COOKIE: string = `JSESSIONID=${JSESSION_ID}` || "";
+    return COOKIE;
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
 }
 
 export async function login(user: User, cookie: string): Promise<boolean> {

@@ -1,30 +1,4 @@
 {
-  "server": {
-    "host": null,
-    "port": 8000
-  },
-  "proxy": {
-    "open": false,
-    "host": "127.0.0.1",
-    "port": 8889
-  },
-  "times": {
-    "watchingTime": {
-      "hour": 17,
-      "minute": 57,
-      "second": 0
-    },
-    "startRequestTime": {
-      "hour": 17,
-      "minute": 59,
-      "second": 59
-    },
-    "endRequestTime": {
-      "hour": 18,
-      "minute": 1,
-      "second": 30
-    }
-  },
   "email": {
     "service": "QQ",
     "auth": {
@@ -35,10 +9,28 @@
   },
   "users": [
     {
-      "name": "",
-      "email": "",
-      "account": "",
-      "password": "",
+      "name": "姓名",
+      "email": "邮箱",
+      "account": "账号",
+      "password": "密码",
+      "wechatConfig": "微信配置串",
+      "times": {
+        "watchingTime": {
+          "hour": 17,
+          "minute": 57,
+          "second": 0
+        },
+        "startRequestTime": {
+          "hour": 17,
+          "minute": 59,
+          "second": 59
+        },
+        "endRequestTime": {
+          "hour": 18,
+          "minute": 1,
+          "second": 30
+        }
+      },
       "expected-seats": [
         {
           "roomId": 33,

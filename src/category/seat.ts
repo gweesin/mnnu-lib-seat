@@ -2,7 +2,7 @@ import { FormatDate } from "../utils/date-utils";
 import { BookLoadTime, BookSeatResult, Seat } from "../request/data";
 import qs from "qs";
 import { AxiosResponse } from "axios";
-import axios, { URLP } from "../request/lib-axios";
+import axios, { URLP } from "../request/axios-library";
 
 /** 预定座位 */
 export async function bookSeat(

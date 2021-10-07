@@ -8,7 +8,7 @@ import {
 } from "../request/data";
 import qs from "qs";
 import { AxiosResponse } from "axios";
-import axios, { URLP } from "../request/lib-axios";
+import axios, { URLP } from "../request/axios-library";
 import _ from "lodash";
 
 const LINK_SIGN: string = "activitySeat";
