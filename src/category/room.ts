@@ -1,17 +1,11 @@
-import { FormatDate, FormatTime } from "../utils/date-utils";
-import {
-  Result,
-  RoomDetails,
-  RoomFreeSeats,
-  Seat,
-  SeatType,
-} from "../request/data";
-import qs from "qs";
-import { AxiosResponse } from "axios";
-import axios, { URLP } from "../request/axios-library";
-import _ from "lodash";
+import { FormatDate, FormatTime } from '../utils/date-utils';
+import { Result, RoomDetails, RoomFreeSeats, Seat, SeatType } from '../request/data';
+import qs from 'qs';
+import { AxiosResponse } from 'axios';
+import axios, { URLP } from '../request/axios-library';
+import _ from 'lodash';
 
-const LINK_SIGN: string = "activitySeat";
+const LINK_SIGN: string = 'activitySeat';
 
 /**
  * 获取房间号为 roomId 的 date 日期的座位信息。
@@ -20,30 +14,20 @@ const LINK_SIGN: string = "activitySeat";
  * @param roomId 房间号，标识房间
  * @param date 需要查询的日期，请求时会转换为 yyyy-mm-dd
  */
-export async function getSeats(
-  cookie: string,
-  roomId: number,
-  date: FormatDate
-): Promise<Seat[]> {
+export async function getSeats(cookie: string, roomId: number, date: FormatDate): Promise<Seat[]> {
   const QUERY_STRING = qs.stringify({
     roomId: roomId,
     date: date.toString(),
     linkSign: LINK_SIGN,
-    endTime: "",
+    endTime: '',
   });
-  const { data: result }: AxiosResponse<Result> = await axios.get(
-    `${URLP}/seats?${QUERY_STRING}`,
-    {
-      headers: {
-        Cookie: cookie,
-      },
-    }
-  );
+  const { data: result }: AxiosResponse<Result> = await axios.get(`${URLP}/seats?${QUERY_STRING}`, {
+    headers: {
+      Cookie: cookie,
+    },
+  });
   const roomDetails: RoomDetails = result.params;
-  return _.filter(
-    roomDetails.seats,
-    (seat: Seat) => seat.type === SeatType.SEAT
-  );
+  return _.filter(roomDetails.seats, (seat: Seat) => seat.type === SeatType.SEAT);
 }
 
 /**
@@ -67,20 +51,16 @@ export async function getSeatsByTime(
   const QUERY_STRING: string = qs.stringify({
     linkSign: LINK_SIGN,
     date: date.toString(),
-    begin:
-      beginTime instanceof FormatTime ? beginTime.hour * 60 : beginTime * 60,
+    begin: beginTime instanceof FormatTime ? beginTime.hour * 60 : beginTime * 60,
     end: endTime instanceof FormatTime ? endTime.hour * 60 : endTime * 60,
     roomId: roomId,
     buildId: buildId,
   });
-  const { data: result }: AxiosResponse<Result> = await axios.get(
-    `${URLP}/searchSeats?${QUERY_STRING}`,
-    {
-      headers: {
-        Cookie: cookie,
-      },
-    }
-  );
+  const { data: result }: AxiosResponse<Result> = await axios.get(`${URLP}/searchSeats?${QUERY_STRING}`, {
+    headers: {
+      Cookie: cookie,
+    },
+  });
 
   if (!result && result.status === false) {
     return null;

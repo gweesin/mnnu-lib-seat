@@ -69,10 +69,8 @@ export class FormatDate {
    * @param splitSymbol 分隔符，默认为 "-"
    */
   public toString(splitSymbol?: string): string {
-    const s = splitSymbol || "-";
-    return `${this.year}${s}${this.month < 10 ? "0" : ""}${this.month}${s}${
-      this.day
-    }`;
+    const s = splitSymbol || '-';
+    return `${this.year}${s}${this.month < 10 ? '0' : ''}${this.month}${s}${this.day}`;
   }
 
   public compareTo(other: FormatDate): number {
@@ -115,16 +113,13 @@ export class FormatTime {
    * @param splitSymbol 分隔符，默认为 ":"
    * @param isKeepTwoDigit 是否保持两位数。如果是则只有一位数时在前面添 0
    */
-  public getDisplayTime(
-    splitSymbol?: string,
-    isKeepTwoDigit?: boolean
-  ): string {
-    let hourPrefix: string = "";
-    let minutePrefix: string = "";
+  public getDisplayTime(splitSymbol?: string, isKeepTwoDigit?: boolean): string {
+    let hourPrefix: string = '';
+    let minutePrefix: string = '';
 
     if (isKeepTwoDigit) {
-      hourPrefix = this.hour < this.DIGIT_SPLIT_LINE ? "0" : hourPrefix;
-      minutePrefix = this.minute < this.DIGIT_SPLIT_LINE ? "0" : minutePrefix;
+      hourPrefix = this.hour < this.DIGIT_SPLIT_LINE ? '0' : hourPrefix;
+      minutePrefix = this.minute < this.DIGIT_SPLIT_LINE ? '0' : minutePrefix;
     }
 
     return `${hourPrefix}${this.hour}${splitSymbol}${minutePrefix}${this.minute}`;
@@ -138,16 +133,16 @@ export class FormatTime {
   }
 
   toString(splitSymbol?: string, isKeepTwoDigit?: boolean): string {
-    let secondPrefix: string = "";
+    let secondPrefix: string = '';
     if (isKeepTwoDigit) {
-      secondPrefix = this.second < this.DIGIT_SPLIT_LINE ? "0" : secondPrefix;
+      secondPrefix = this.second < this.DIGIT_SPLIT_LINE ? '0' : secondPrefix;
     }
     const displayTime = this.getDisplayTime(splitSymbol, isKeepTwoDigit);
     return `${displayTime}${splitSymbol}${secondPrefix}${this.second}`;
   }
 
   public compareTo(other: FormatTime): number {
-    return this.toString("", true).localeCompare(other.toString("", true));
+    return this.toString('', true).localeCompare(other.toString('', true));
   }
 }
 
@@ -170,9 +165,9 @@ export class FullFormatDate {
 
   /** without second */
   getDisplayFullDate(config?: FullDateConfig) {
-    const d: string = config?.dateSplitSymbol || "-";
-    const s: string = config?.splitSymbol || " ";
-    const t: string = config?.timeSplitSymbol || ":";
+    const d: string = config?.dateSplitSymbol || '-';
+    const s: string = config?.splitSymbol || ' ';
+    const t: string = config?.timeSplitSymbol || ':';
     const k: boolean = config?.isKeepTwoDigit || false;
     return `${this.date.toString(d)}${s}${this.time.toString(t, k)}`;
   }

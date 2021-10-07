@@ -1,7 +1,7 @@
-import moment, { Moment } from "moment";
-import getLogger from "../entity/logger";
+import moment, { Moment } from 'moment';
+import getLogger from '../entity/logger';
 
-const logger = getLogger("timer");
+const logger = getLogger('timer');
 
 export default class CycleTimer {
   private timer: NodeJS.Timer;
@@ -15,7 +15,7 @@ export default class CycleTimer {
 
   public start(): void {
     this.stop();
-    logger.debug(`期望开始监听时间 ${this._expectedMoment.format("HH:mm:ss")}`);
+    logger.debug(`期望开始监听时间 ${this._expectedMoment.format('HH:mm:ss')}`);
     const waitTime: number = this._expectedMoment.diff(moment());
 
     const HOUR = Math.floor(waitTime / 1000 / 60 / 60);
@@ -25,7 +25,7 @@ export default class CycleTimer {
 
     this.timer = setTimeout(() => {
       this._callback();
-      this._expectedMoment.add(1, "days");
+      this._expectedMoment.add(1, 'days');
       return this.start();
     }, waitTime);
   }

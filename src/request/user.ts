@@ -1,4 +1,4 @@
-import { UserExpected } from "./data";
+import { UserExpected } from './data';
 
 export interface User {
   readonly name?: string;
@@ -16,13 +16,13 @@ export interface User {
 }
 
 export interface BookTimes {
-  "0"?: Duration;
-  "1"?: Duration;
-  "2"?: Duration;
-  "3"?: Duration;
-  "4"?: Duration;
-  "5"?: Duration;
-  "6"?: Duration;
+  '0'?: Duration;
+  '1'?: Duration;
+  '2'?: Duration;
+  '3'?: Duration;
+  '4'?: Duration;
+  '5'?: Duration;
+  '6'?: Duration;
   default: Duration;
 }
 

@@ -16,13 +16,13 @@ export interface Result {
 }
 
 export enum BookState {
-  CANCEL = "CANCEL", // 已取消
-  AWAY = "AWAY", // 暂时离开
-  CHECK_IN = "CHECK_IN", // 履约中
-  COMPLETE = "COMPLETE", // 已履约
-  INCOMPLETE = "INCOMPLETE", // 早退
-  MISS = "MISS", // 失约
-  STOP = "STOP", // 结束使用
+  CANCEL = 'CANCEL', // 已取消
+  AWAY = 'AWAY', // 暂时离开
+  CHECK_IN = 'CHECK_IN', // 履约中
+  COMPLETE = 'COMPLETE', // 已履约
+  INCOMPLETE = 'INCOMPLETE', // 早退
+  MISS = 'MISS', // 失约
+  STOP = 'STOP', // 结束使用
 }
 
 export interface UserBookHistory {
@@ -62,7 +62,7 @@ export interface RoomDetails {
 }
 
 export interface RoomFreeSeats {
-  linkSign: "activitySeat" | string;
+  linkSign: 'activitySeat' | string;
   seats: Seat[];
 }
 
@@ -80,15 +80,15 @@ export interface Seat {
 }
 
 export enum SeatType {
-  EMPTY = "empty",
-  SEAT = "seat",
-  DOOR = "door",
+  EMPTY = 'empty',
+  SEAT = 'seat',
+  DOOR = 'door',
 }
 
 export enum SeatState {
-  IN_USE = "IN_USE", // 使用中
-  FULL = "FULL", // 有约
-  FREE = "FREE", // 可选，空座位
+  IN_USE = 'IN_USE', // 使用中
+  FULL = 'FULL', // 有约
+  FREE = 'FREE', // 可选，空座位
 }
 
 // 保存预约记录的返回值

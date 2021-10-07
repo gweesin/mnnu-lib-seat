@@ -1,20 +1,19 @@
-import { Room, Seat, UserExpected } from "./request/data";
-import { UserOperation } from "./request/user-operation";
-import { getCookie } from "./category/user";
-import { users } from "../config/user-config.json";
-import { server } from "../config/app-config.json";
-import moment, { Moment } from "moment";
-import { BookTimes, Duration, User } from "./request/user";
-import Koa from "koa";
-import Router from "koa-router";
-import { BUILDING_ID_YF, getRooms } from "./category/building";
-import { getSeats } from "./category/room";
-import { FormatDate } from "./utils/date-utils";
-import _ from "lodash";
-import CycleTimer from "./entity/cycle-timer";
-import getLogger from "./entity/logger";
+import { Room, Seat } from './request/data';
+import { UserOperation } from './request/user-operation';
+import { getCookie } from './category/user';
+import { users } from '../config/user-config.json';
+import { server } from '../config/app-config.json';
+import moment from 'moment';
+import Koa from 'koa';
+import Router from 'koa-router';
+import { BUILDING_ID_YF, getRooms } from './category/building';
+import { getSeats } from './category/room';
+import { FormatDate } from './utils/date-utils';
+import _ from 'lodash';
+import CycleTimer from './entity/cycle-timer';
+import getLogger from './entity/logger';
 
-const logger = getLogger("main");
+const logger = getLogger('main');
 
 const app: Koa = new Koa();
 const router: Router = new Router<any, {}>();
@@ -23,19 +22,17 @@ async function bookExpectSeat() {
   for (const user of users) {
     const userLogger = getLogger(user.name);
     const watch = user.times.watchingTime;
-    userLogger.debug(
-      `加载配置信息：程序启动时间 ${watch.hour}:${watch.minute}:${watch.second}`
-    );
+    userLogger.debug(`加载配置信息：程序启动时间 ${watch.hour}:${watch.minute}:${watch.second}`);
     const cycleTimer: CycleTimer = new CycleTimer(async () => {
       const userOperation = new UserOperation(user);
       await userOperation.occupyExpectedSeat();
-    }, moment(`${watch.hour}:${watch.minute}:${watch.second}`, "HH:mm:ss"));
+    }, moment(`${watch.hour}:${watch.minute}:${watch.second}`, 'HH:mm:ss'));
 
     cycleTimer.start();
   }
 }
 
-router.get("/", async (ctx) => {
+router.get('/', async (ctx) => {
   ctx.response.body = `
 <h1>Welcome!!!</h1>
 <li><a href="/">请求页面列表</a></li>
@@ -44,7 +41,7 @@ router.get("/", async (ctx) => {
 `;
 });
 
-router.get("/get/yf/seats", async (ctx) => {
+router.get('/get/yf/seats', async (ctx) => {
   const today: FormatDate = FormatDate.today();
 
   const COOKIE: string = await getCookie(users[0].wechatConfig);
@@ -55,10 +52,10 @@ router.get("/get/yf/seats", async (ctx) => {
   const rooms: Room[] = await getRooms(BUILDING_ID_YF, COOKIE);
   for (let room of rooms) {
     const seats: Seat[] = await getSeats(COOKIE, room.roomId, today);
-    room["seats"] = seats;
+    room['seats'] = seats;
   }
   ctx.response.body = _.map(rooms, (room) => {
-    return _.map(room["seats"], (seat: Seat) => {
+    return _.map(room['seats'], (seat: Seat) => {
       return {
         roomId: room.roomId,
         roomName: room.room,
@@ -69,11 +66,11 @@ router.get("/get/yf/seats", async (ctx) => {
   });
 });
 
-router.get("/get/users/info", async (ctx) => {
+router.get('/get/users/info', async (ctx) => {
   ctx.response.body = users;
 });
 
-router.get("/", async (ctx) => {
+router.get('/', async (ctx) => {
   for (const user of users) {
     const userOperation = new UserOperation(user);
     let hours = new Date().getHours();
@@ -83,7 +80,7 @@ router.get("/", async (ctx) => {
 
 app.use(router.routes());
 app.listen(server.port, () => {
-  logger.info("服务器启动成功");
-  console.log("服务器启动成功");
+  logger.info('服务器启动成功');
+  console.log('服务器启动成功');
   bookExpectSeat();
 });
