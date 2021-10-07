@@ -1,7 +1,7 @@
 import { Room, Seat, UserExpected } from "./request/data";
 import { OccupySeat } from "./request/occupy-seat";
 import { getCookie } from "./category/user";
-import * as config from "../user-config.json";
+import * as config from "../config/user-config.json";
 import { server } from "../config/app-config.json";
 import moment, { Moment } from "moment";
 import { BookTimes, Duration, User } from "./request/user";

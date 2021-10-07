@@ -4,7 +4,7 @@ import { getCookie, getUserBookHistory, login } from "../src/category/user";
 import { FormatDate } from "../src/utils/date-utils";
 import { User } from "../src/request/user";
 import { getSeats } from "../src/category/room";
-import * as config from "../user-config.json";
+import * as config from "../config/user-config.json";
 
 (async () => {
   const users: User[] = config.users;

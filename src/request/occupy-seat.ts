@@ -7,10 +7,11 @@ import { BUILDING_ID_YF, getRooms } from "../category/building";
 import { getSeatsByTime } from "../category/room";
 import _ from "lodash";
 import nodemailer, { Transporter } from "nodemailer";
-import { email } from "../../user-config.json";
+import { email } from "../../config/user-config.json";
 import getLogger from "../entity/logger";
 
 const logger = getLogger("occupy");
+
 export class OccupySeat {
   public readonly user: User;
   public readonly expects: UserExpected[];
@@ -19,6 +20,7 @@ export class OccupySeat {
   private readonly DEFAULT_BEGIN_HOUR: number = 8;
   private readonly DEFAULT_END_HOUR: number = 22;
   private transporter: Transporter;
+  private readonly userLogger;
 
   constructor(
     user: User,
@@ -26,6 +28,7 @@ export class OccupySeat {
     occupyBegin?: number,
     occupyEnd?: number
   ) {
+    this.userLogger = getLogger(user.name);
     this.user = user;
     this.expects = expects;
     if (!occupyBegin || !occupyEnd) {
@@ -93,14 +96,19 @@ export class OccupySeat {
             for (let i = 0; i < (expect.priority || 1); ++i) {
               bookSeat(cookie, expect.seatId, date, beginHour, endHour).then(
                 async (resp: BookSeatResult) => {
-                  console.log(resp);
+                  this.userLogger.debug(resp);
                   if (resp?.data?.location) {
-                    await this.sendEmail(
-                      FormatDate.tomorrow().toString() +
-                        " " +
-                        resp.data.location,
-                      JSON.stringify(resp.data, null, 2)
+                    const SEND_TEXT: string = JSON.stringify(
+                      resp.data,
+                      null,
+                      2
                     );
+                    const SEND_SUBJECT: string =
+                      FormatDate.tomorrow().toString() +
+                      " " +
+                      resp.data.location;
+                    this.userLogger.debug(`抢座成功: ${SEND_TEXT}`);
+                    await this.sendEmail(SEND_SUBJECT, SEND_TEXT);
                     OccupySeat.clearIntervals(intervals);
                   } else if (
                     !resp?.message ||
