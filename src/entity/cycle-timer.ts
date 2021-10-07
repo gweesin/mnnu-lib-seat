@@ -17,11 +17,7 @@ export default class CycleTimer {
     this.stop();
     logger.debug(`期望开始监听时间 ${this._expectedMoment.format('HH:mm:ss')}`);
     const waitTime: number = this._expectedMoment.diff(moment());
-
-    const HOUR = Math.floor(waitTime / 1000 / 60 / 60);
-    const MINUTE = Math.floor((waitTime / 1000 / 60) % 60);
-    const SECOND = Math.floor((waitTime / 1000) % 60);
-    logger.debug(`离开始监听还需要 ${HOUR}:${MINUTE}:${SECOND}`);
+    logger.debug(`离开始监听还需要 ${waitTime / 1000}s`);
 
     this.timer = setTimeout(() => {
       this._callback();

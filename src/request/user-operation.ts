@@ -40,12 +40,13 @@ export class UserOperation {
 
     const WEEK_DAY: number = moment().add(1, 'days').day();
     const bookTimes: BookTimes = this.user.bookTimes;
-    const duration: Duration = bookTimes[WEEK_DAY] || bookTimes.default;
+    const duration = bookTimes[WEEK_DAY] || bookTimes.default;
     if (!this.isValid(duration.begin, duration.end)) {
       this.userLogger.error(`时间信息配置错误：[${duration.begin}, ${duration.end}]`);
       throw Error(`时间信息配置错误：[${duration.begin}, ${duration.end}]`);
     }
     this.userLogger.debug(`加载配置信息：期望时间段: [${duration.begin}, ${duration.end}]`);
+    this.duration = duration;
 
     // 配置邮件信息
     this.transporter = nodemailer.createTransport({
