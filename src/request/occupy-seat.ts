@@ -8,7 +8,9 @@ import { getSeatsByTime } from "../category/room";
 import _ from "lodash";
 import nodemailer, { Transporter } from "nodemailer";
 import { email } from "../../user-config.json";
+import getLogger from "../entity/logger";
 
+const logger = getLogger("occupy");
 export class OccupySeat {
   public readonly user: User;
   public readonly expects: UserExpected[];
@@ -55,10 +57,10 @@ export class OccupySeat {
         text: text,
       })
       .then((resp) => {
-        console.log(resp);
+        logger.info(resp);
       })
       .catch((err) => {
-        console.log(err);
+        logger.error(err);
       });
   }
 
@@ -121,13 +123,12 @@ export class OccupySeat {
           } else if (now > this.occupyEnd) {
             OccupySeat.clearIntervals(intervals);
           }
-        }, 1005);
+        }, 1050);
         intervals.push(interval);
       }
     } catch (err) {
       OccupySeat.clearIntervals(intervals);
-      console.log(err);
-      return false;
+      return logger.error(err);
     }
   }
 
@@ -154,7 +155,7 @@ export class OccupySeat {
     date = date || FormatDate.today();
 
     const cookie: string = await getCookie();
-    console.log(`从微信获取 cookie: ${cookie}`);
+    logger.debug(`cookie: ${cookie}`);
 
     // 获取 Building 里所有房间
     const rooms: Room[] = await getRooms(BUILDING_ID_YF, cookie);
@@ -179,7 +180,7 @@ export class OccupySeat {
           let start =
             resp.start !== "now" ? parseInt(resp.start) / 60 : resp.start;
           let end = resp.end !== "now" ? parseInt(resp.end) / 60 : resp.end;
-          console.log(`${room.room} ${seat.name}: [${start}, ${end}]`);
+          logger.debug(`${room.room} ${seat.name}: [${start}, ${end}]`);
           // bookSeat(cookie, seat.id, date, resp.start, resp.end).then((resp: BookSeatResult) => {
           //     console.log(resp);
           // });
@@ -202,6 +203,7 @@ export class OccupySeat {
           clearInterval(interval);
         }
       }
+      logger.info("清除抢座请求定时器列表");
     }
   }
 
@@ -218,7 +220,7 @@ export class OccupySeat {
       beginHour < this.DEFAULT_BEGIN_HOUR ||
       endHour > this.DEFAULT_END_HOUR
     ) {
-      console.log(`[${beginHour}, ${endHour}] 时间段非法`);
+      logger.info(`[${beginHour}, ${endHour}] 时间段非法`);
       return false;
     }
     return true;

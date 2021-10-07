@@ -1,4 +1,3 @@
-
 # Occupy MNNU Library Seat
 
 ## Record
@@ -30,6 +29,8 @@ git commit -m ".gitignore now work"
 - [x] 使用 Koa 框架构建 API 接口
 - [x] 添加自定义用户爬虫时间配置
 - [x] 发送邮件
+- [x] 使用 log4js 管理日志并完善日志记录
+- 
 
 ## Related Link
 

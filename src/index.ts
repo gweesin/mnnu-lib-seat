@@ -2,6 +2,7 @@ import { Room, Seat, UserExpected } from "./request/data";
 import { OccupySeat } from "./request/occupy-seat";
 import { getCookie } from "./category/user";
 import * as config from "../user-config.json";
+import { server } from "../config/app-config.json";
 import moment, { Moment } from "moment";
 import { BookTimes, Duration, User } from "./request/user";
 import Koa from "koa";
@@ -13,26 +14,38 @@ import _ from "lodash";
 import CycleTimer from "./entity/cycle-timer";
 import getLogger from "./entity/logger";
 
-const logger = getLogger();
-
+const logger = getLogger("main");
 const users: User[] = config.users;
-const today: FormatDate = FormatDate.today();
-const tomorrow: Moment = moment().add(1, "days");
 
 const app: Koa = new Koa();
 const router: Router = new Router<any, {}>();
 
 async function bookExpectSeat() {
   for (const user of users) {
-    const expects: UserExpected[] = user.expectSeats;
-    let bookTimes: BookTimes = user.bookTimes;
-    let duration: Duration = bookTimes[tomorrow.day()] || bookTimes.default;
-    console.log(duration);
+    const tomorrow: Moment = moment().add(1, "days");
 
-    const times = config.times;
-    const watch = times.watchingTime;
-    const start = times.startRequestTime;
-    const end = times.endRequestTime;
+    const expects: UserExpected[] = user.expectSeats;
+    const bookTimes: BookTimes = user.bookTimes;
+    const duration: Duration = bookTimes[tomorrow.day()] || bookTimes.default;
+    const watch = config.times.watchingTime;
+    const start = config.times.startRequestTime;
+    const end = config.times.endRequestTime;
+
+    const userLogger = getLogger(user.name);
+
+    userLogger.debug(
+      `加载配置信息：期望时间段: [${duration.begin}, ${duration.end}]`
+    );
+    userLogger.debug(
+      `加载配置信息：程序启动时间 ${watch.hour}:${watch.minute}:${watch.second}`
+    );
+    userLogger.debug(
+      `加载配置信息：开始抢座时间 ${start.hour}:${start.minute}:${start.second}`
+    );
+    userLogger.debug(
+      `加载配置信息：结束抢座时间 ${end.hour}:${end.minute}:${end.second}`
+    );
+
     const cycleTimer: CycleTimer = new CycleTimer(async () => {
       const startTime: number = new Date().setHours(
         start.hour,
@@ -46,11 +59,11 @@ async function bookExpectSeat() {
       );
       const occupySeat = new OccupySeat(user, expects, startTime, endTime);
       const cookie: string = await getCookie();
-      console.log(cookie);
+      userLogger.debug(`cookie: ${cookie}`);
       await occupySeat.occupyExpectedSeat(cookie, duration.begin, duration.end);
     }, moment(`${watch.hour}:${watch.minute}:${watch.second}`, "HH:mm:ss"));
 
-    // cycleTimer.start();
+    cycleTimer.start();
   }
 }
 
@@ -64,6 +77,8 @@ router.get("/", async (ctx) => {
 });
 
 router.get("/get/yf/seats", async (ctx) => {
+  const today: FormatDate = FormatDate.today();
+
   const cookie: string = await getCookie();
   if (!cookie) {
     return (ctx.response.body = `<h1>获取逸夫座位失败</h1>`);
@@ -99,7 +114,8 @@ router.get("/", async (ctx) => {
 });
 
 app.use(router.routes());
-app.listen(config.server.port, () => {
+app.listen(server.port, () => {
   logger.info("服务器启动成功");
+  console.log("服务器启动成功");
   bookExpectSeat();
 });

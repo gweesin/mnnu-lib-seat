@@ -1,5 +1,5 @@
 import axios, { AxiosProxyConfig } from "axios";
-import { proxy } from "../../user-config.json";
+import { proxy } from "../../config/app-config.json";
 
 export const URL = "https://seatwx.mnnu.edu.cn";
 export const URLP = "https://seatwx.mnnu.edu.cn/libseat-ibeacon";
