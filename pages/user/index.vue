@@ -1,11 +1,13 @@
 <template>
-$END$
+  <div>
+    <h1>user page!</h1>
+  </div>
 </template>
 
 <script>
 export default {
-name: "index"
-}
+  name: 'index'
+};
 </script>
 
 <style scoped>

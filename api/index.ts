@@ -1,23 +1,25 @@
-import { Room, Seat } from '../../src/request/data';
-import { UserOperation } from '../../src/request/user-operation';
-import { getCookie } from '../../src/category/user';
-import { users } from '../../config/user-config.json';
-import { server } from '../../config/app-config.json';
+import { Room, Seat } from '../src/request/data';
+import { UserOperation } from '../src/request/user-operation';
+import { getCookie } from '../src/category/user';
+import { users } from '../config/user-config.json';
+import { server } from '../config/app-config.json';
 import moment from 'moment';
 import Koa from 'koa';
 import Router from 'koa-router';
-import { BUILDING_ID_YF, getRooms } from '../../src/category/building';
-import { getSeats } from '../../src/category/room';
-import { FormatDate } from '../../src/utils/date-utils';
+import { BUILDING_ID_YF, getRooms } from '../src/category/building';
+import { getSeats } from '../src/category/room';
+import { FormatDate } from '../src/utils/date-utils';
 import _ from 'lodash';
-import CycleTimer from '../../src/entity/cycle-timer';
-import getLogger from '../../src/entity/logger';
+import CycleTimer from '../src/entity/cycle-timer';
+import getLogger from '../src/entity/logger';
+import cors from 'koa2-cors';
 
 const logger = getLogger('main');
 
 const app: Koa = new Koa();
 const router: Router = new Router<any, {}>();
 
+app.use(cors());
 async function bookExpectSeat() {
   for (const user of users) {
     const userLogger = getLogger(user.name);
@@ -32,14 +34,14 @@ async function bookExpectSeat() {
   }
 }
 
-router.get('/', async (ctx) => {
-  ctx.response.body = `
-<h1>Welcome!!!</h1>
-<li><a href='/'>请求页面列表</a></li>
-<li><a href='/get/yf/seats'>获取所有逸夫座位</a></li>
-<li><a href='/get/users/info'>获取所有用户信息</a></li>
-`;
-});
+// router.get('/', async (ctx) => {
+//   ctx.response.body = `
+// <h1>Welcome!!!</h1>
+// <li><a href='/'>请求页面列表</a></li>
+// <li><a href='/get/yf/seats'>获取所有逸夫座位</a></li>
+// <li><a href='/get/users/info'>获取所有用户信息</a></li>
+// `;
+// });
 
 router.get('/get/yf/seats', async (ctx) => {
   const today: FormatDate = FormatDate.today();
@@ -79,6 +81,7 @@ router.get('/', async (ctx) => {
 });
 
 app.use(router.routes());
+
 app.listen(server.port, () => {
   logger.info('服务器启动成功');
   console.log('服务器启动成功');
