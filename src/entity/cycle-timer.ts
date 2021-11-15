@@ -5,7 +5,7 @@ const logger = getLogger('timer');
 
 export default class CycleTimer {
   private timer: NodeJS.Timer;
-  private _callback: (...args: any) => void;
+  private readonly _callback: (...args: any) => void;
   private _expectedMoment: Moment;
 
   constructor(callback: (...args: any) => void, expectedMoment: Moment) {
@@ -15,7 +15,7 @@ export default class CycleTimer {
 
   public start(): void {
     this.stop();
-    logger.debug(`期望开始监听时间 ${this._expectedMoment.format('HH:mm:ss')}`);
+    logger.debug(`期望开始监听时间 ${this._expectedMoment.format('YYYY-MM-DD HH:mm:ss')}`);
     const waitTime: number = this._expectedMoment.diff(moment());
     logger.debug(`离开始监听还需要 ${waitTime / 1000}s`);
 

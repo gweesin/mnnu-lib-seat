@@ -3,6 +3,9 @@ import { User } from '../request/user';
 import { AxiosResponse } from 'axios';
 import { Result, UserBookHistory } from '../request/data';
 import qs from 'qs';
+import getLogger from '../entity/logger';
+
+const logger = getLogger('http');
 
 /**
  * 获取保持会话所需的 Cookie 信息
@@ -19,9 +22,10 @@ export async function getCookie(WE_CHAT_CONFIG: string): Promise<string> {
 
     const JSESSION_ID = PATH.match(JSESSION_ID_PATTERN)?.[1];
     const COOKIE: string = `JSESSIONID=${JSESSION_ID}` || '';
+
     return COOKIE;
   } catch (err) {
-    console.log(err);
+    logger.error(err);
     return null;
   }
 }
@@ -37,11 +41,7 @@ export async function login(user: User, cookie: string, WE_CHAT_CONFIG: string):
       type: 'currentBook',
       msg: '',
     }),
-    {
-      headers: {
-        Cookie: cookie,
-      },
-    }
+    { headers: { Cookie: cookie } }
   );
 
   if (response.data.status === false) {

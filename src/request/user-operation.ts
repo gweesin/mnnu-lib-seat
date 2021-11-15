@@ -94,11 +94,13 @@ export class UserOperation {
           if (this.startRequestTime < now && now < this.endRequestTime) {
             for (let i = 0; i < (expect.priority || 1); ++i) {
               bookSeat(COOKIE, expect.seatId, date, this.duration.begin, this.duration.end).then(async (resp: BookSeatResult) => {
-                this.userLogger.debug(resp);
+                const MSG: string = JSON.stringify(resp.data);
+                this.userLogger.debug(MSG);
+
                 if (resp?.data?.location) {
-                  const SEND_TEXT: string = JSON.stringify(resp.data, null, 2);
                   const SEND_SUBJECT: string = FormatDate.tomorrow().toString() + ' ' + resp.data.location;
-                  this.userLogger.debug(`抢座成功: ${SEND_TEXT}`);
+                  const SEND_TEXT: string = JSON.stringify(resp.data, null, 2);
+                  this.userLogger.debug(`抢座成功: ${MSG}`);
                   await this.sendEmail(SEND_SUBJECT, SEND_TEXT);
                   UserOperation.clearIntervals(intervals);
                 } else if (
